@@ -147,7 +147,7 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of patients: 100</code></pre>
 </div>
-<div id="load-data-python" class="cell-output cell-output-display" data-execution_count="19">
+<div id="load-data-python" class="cell-output cell-output-display" data-execution_count="54">
 <div>
 
 
@@ -219,7 +219,7 @@ window.Quarto = {
 <div id="fig-plot-outcomes" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-plot-outcomes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-plot-outcomes-output-1.png" width="947" height="566" class="figure-img">
+<img src="index_files/figure-html/fig-plot-outcomes-output-1.png" width="757" height="566" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-outcomes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Post-Surgical Symptom Score (lower is better) - Observed Data
@@ -256,19 +256,6 @@ Figure&nbsp;3: DAG Model Explaining Surgical Outcomes
 </figure>
 </div>
 <p>A possible common-cause story would go something like this. Both surgeons have full schedules, with Dr.&nbsp;Dreamy scheduling surgeries 3 weeks in advance and Dr.&nbsp;Duck scheduling surgeries 1 week in advance. As such, patients who are not in a rush, usually those with low severity, are more likely to choose Dr.&nbsp;Dreamy based on his website and picture. However, patients who are in more of a rush, usually those with high severity, are more likely to choose Dr.&nbsp;Duck based on his availability and the fact that he is the only surgeon who can see them immediately.</p>
-<div class="callout callout-style-default callout-warning no-icon callout-titled" title="Assumption: Slow Progression of Patient Severity">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Assumption: Slow Progression of Patient Severity
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For simplicity, we assume that patient severity progresses slowly enough that a 2-week delay (i.e., waiting for Dr.&nbsp;Dreamy’s availability) has zero effect on surgical outcomes. This delay affects only how quickly patients receive surgical relief, not the eventual outcome itself. While time-to-surgery can be an important factor in other contexts, here we focus solely on whether initial patient severity might create a spurious or biased association between surgeon choice and outcomes.</p>
-</div>
-</div>
 </section>
 <section id="solution-1-randomization-break-the-confounding-path" class="level2">
 <h2 class="anchored" data-anchor-id="solution-1-randomization-break-the-confounding-path">Solution 1: Randomization — Break the Confounding Path</h2>
@@ -287,19 +274,6 @@ Figure&nbsp;4: DAG Model Explaining Surgical Outcomes
 <p><a href="#fig-example3-node" class="quarto-xref">Figure&nbsp;4</a> shows the DAG model for the randomization scenario. In this scenario, patient severity (<span class="math inline">\(Z\)</span>) is no longer a cause of surgeon choice (<span class="math inline">\(X\)</span>). Instead, randomization (<span class="math inline">\(R\)</span>) completely determines surgeon assignment (<span class="math inline">\(X\)</span>). This breaks the confounding relationship between patient severity and surgeon choice, allowing us to assess whether the surgeons themselves truly matter for surgical outcomes.</p>
 <section id="our-data-doesnt-have-counterfactuals-how-can-we-know-what-would-have-happened-to-those-patients-if-we-had-randomized" class="level3">
 <h3 class="anchored" data-anchor-id="our-data-doesnt-have-counterfactuals-how-can-we-know-what-would-have-happened-to-those-patients-if-we-had-randomized">Our data doesn’t have counterfactuals, how can we know what would have happened to those patients if we had randomized?</h3>
-<div class="callout callout-style-default callout-note no-icon callout-titled" title="What is a counterfactual?">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>What is a counterfactual?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A <em>counterfactual</em> is the answer to a “what if” question: what would have happened if circumstances had been different? Specifically, what would each patient’s outcome have been if they had been assigned to the <em>other</em> surgeon, holding everything else constant? These are the unobserved alternative outcomes—the outcomes that didn’t happen but could have happened under different treatment assignment.</p>
-</div>
-</div>
 <p>Unfortunately, we can’t observe what didn’t happen. The patients we already observed went to the surgeon they chose (or who was available), and we’ll never know their outcomes under the alternative assignment. This is the fundamental problem of causal inference: we only see one world, not the parallel universe where everything else was held constant but the treatment differed.</p>
 <p>Since we cannot rerun history with randomization, we run an experiment to collect the data we need. So, we randomly assigned a sequence of 100 patients to either Dr.&nbsp;Dreamy or Dr.&nbsp;Duck and observed the following data:</p>
 </section>
@@ -310,7 +284,7 @@ Figure&nbsp;4: DAG Model Explaining Surgical Outcomes
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of randomized patients: 100</code></pre>
 </div>
-<div id="load-data-randomized-python" class="cell-output cell-output-display" data-execution_count="22">
+<div id="load-data-randomized-python" class="cell-output cell-output-display" data-execution_count="57">
 <div>
 
 
@@ -377,18 +351,12 @@ Figure&nbsp;4: DAG Model Explaining Surgical Outcomes
 <section id="post-surgical-outcomes-by-patient-randomized-assignment" class="level2">
 <h2 class="anchored" data-anchor-id="post-surgical-outcomes-by-patient-randomized-assignment">Post-Surgical Outcomes by Patient (Randomized Assignment)</h2>
 <p>To demonstrate how randomization breaks confounding relationships, we examine the same analysis with randomized patient assignment. The following scatter plot uses the same format as the observational data but with randomized assignment:</p>
-<ul>
-<li>Same styling as Figure 1 (markers, colors, mean lines, annotations)</li>
-<li>Title should indicate this is randomized assignment</li>
-<li>Same colorblind-friendly color scheme</li>
-<li>Professional styling consistent with Figure 1</li>
-</ul>
 <div id="cell-fig-plot-outcomes-randomized" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div id="fig-plot-outcomes-randomized" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-plot-outcomes-randomized-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-plot-outcomes-randomized-output-1.png" width="983" height="566" class="figure-img">
+<img src="index_files/figure-html/fig-plot-outcomes-randomized-output-1.png" width="711" height="516" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-outcomes-randomized-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: Post-Surgical Symptom Score (lower is better) for randomized patients.
@@ -405,22 +373,12 @@ Figure&nbsp;5: Post-Surgical Symptom Score (lower is better) for randomized pati
 <section id="post-surgical-outcomes-by-patient-severity-stratification" class="level2">
 <h2 class="anchored" data-anchor-id="post-surgical-outcomes-by-patient-severity-stratification">Post-Surgical Outcomes by Patient Severity (Stratification)</h2>
 <p>When randomization is not feasible, stratification provides an alternative approach to control for confounding. The following scatter plot shows post-surgical outcomes as a function of initial patient severity:</p>
-<ul>
-<li>X-axis: Initial Patient Severity</li>
-<li>Y-axis: Post-Surgical Symptom Score (Lower is Better)</li>
-<li>Scatter points colored/marked by doctor (same scheme as previous figures)</li>
-<li>Mean horizontal lines for each doctor</li>
-<li>A rectangular overlay (shaded region) highlighting severity between -1 and 1</li>
-<li>Text annotations for means positioned appropriately</li>
-<li>Title: “Post-Surgical Symptom Score by Patient Severity”</li>
-<li>This figure should reveal the confounding by showing how severity affects both surgeon assignment and outcomes</li>
-</ul>
 <div id="cell-fig-plot-outcomes-severity" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div id="fig-plot-outcomes-severity" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-plot-outcomes-severity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-plot-outcomes-severity-output-1.png" width="935" height="566" class="figure-img">
+<img src="index_files/figure-html/fig-plot-outcomes-severity-output-1.png" width="750" height="566" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-outcomes-severity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Post-Surgical Symptom Score (lower is better) by Patient and Severity
